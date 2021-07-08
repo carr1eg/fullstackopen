@@ -1,0 +1,24 @@
+title Submitting a New Note (github.com/cgm42)
+
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+note right of Server: Server adds new note to JSON file
+Server-->Browser: Redirect 302
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+Server-->Browser: HTML Code
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+
+Server-->Browser: main.css
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+
+Server-->Browser: main.js
+
+note left of Browser: Browser starts to executing code that requires JSON
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+
+Server-->Browser: data.json
+
+note left of Browser: Browser executes eventhandler that renders notes
+

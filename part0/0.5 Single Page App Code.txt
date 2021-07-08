@@ -1,0 +1,23 @@
+title Single Page App (github.com/cgm42)
+
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+Server-->Browser: HTML Code
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+
+Server-->Browser: main.css
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+
+Server-->Browser: spa.js
+
+note left of Browser: Browser starts to executing code that requires data.json
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+
+Server-->Browser: data.json
+
+
+note left of Browser: Browser starts to render notes
+
