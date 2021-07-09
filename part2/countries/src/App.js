@@ -8,10 +8,10 @@ function App() {
     axios
       .get(`https://restcountries.eu/rest/v2/name/${input}`) 
       .then((response) => {
-        console.log('response :>> ', response);
+        // console.log('response :>> ', response);
         setCountries(response.data)
       })
-  }, [input])
+  }, [input]);
 
   const handleSearch = (event) => {
     setInput(event.target.value);
@@ -26,8 +26,33 @@ const handleClick = (event) => {
      <div>
       <Countries countries={countries} handleClick={handleClick}/>
      </div>
+ 
     </div>
   );
+}
+
+const Weather = ({capital}) => {
+  const [weather, setWeather] = useState("");
+
+  useEffect(() => {
+    const api_key = process.env.REACT_APP_API_KEY;
+    console.log('api_key :>> ', api_key);
+    axios
+      .get(`http://api.weatherstack.com/current?access_key=${api_key}&query=${capital}`)
+      .then((response) => {
+        console.log('response :>> ', response);
+        setWeather(response.data)
+      })
+  },[capital])
+  console.log('weather :>> ', weather);
+  return(
+    <div>
+      <h2>Weather in {capital}</h2>
+      <p><b>temperature:</b> {weather.current.temperature} celsius  </p>
+      <img alt='weather_icon' src={weather.current.weather_icons} ></img>
+      <p><b>wind:</b>     {weather.current.wind_speed} mph direction {weather.current.wind_dir}    </p>
+    </div>
+  )
 }
 
 const Countries = ({countries, handleClick}) => {
@@ -53,7 +78,7 @@ const Countries = ({countries, handleClick}) => {
       </div>
      )
   }else if(countries.length === 1){
-    console.log('countries[0] :>> ', countries[0]);
+    // console.log('countries[0] :>> ', countries[0]);
     return (
       <DisplayCountry country={countries[0]}/>
     )
@@ -62,7 +87,7 @@ const Countries = ({countries, handleClick}) => {
 export default App;
 
 const DisplayCountry = ({country}) => {
-  console.log('country :>> ', country);
+  // console.log('country :>> ', country);
   return(
     <div>
     <h1>{country.name}</h1>
@@ -73,6 +98,7 @@ const DisplayCountry = ({country}) => {
       <div> {e.name} </div>
     )}
     <img alt='flag' src={country.flag} width='400'></img>
+    <Weather capital={country.capital}/>
   </div>
 
   )
