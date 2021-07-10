@@ -9,28 +9,38 @@ const App = () => {
   const [name, setName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [newFilter, setFilter] = useState('');
+  const [reloadPerson, setReloadPerson] = useState(false);
 
   useEffect(() => {
     axios
     .get('http://localhost:3001/persons')
     .then((response) => {
-      console.log('response :>> ', response);
+      // console.log('response :>> ', response);
       setPersons(response.data)
+      setReloadPerson(false);
     })
-  }, [])
+  }, [reloadPerson]);
   console.log('newFilter :>> ', newFilter);
+
   const addPerson = (event) => {
     event.preventDefault();
     if (persons.find(e => e.name === name)) {
       window.alert(`${name} is already added to phonebook`);
-    } else {
+    } 
+    else {
       const person = {
         name: name,
         number: newNumber
       }
-      setPersons(persons.concat(person));
-      setName('');
-      setNewNumber("");
+      axios
+        .post('http://localhost:3001/persons', person)
+        .then(response => {
+          console.log(response);
+          setPersons(persons.concat(person));
+          setName('');
+          setNewNumber("");
+        }
+          )
     }
   }
   const handleNumberChange = (event) => {
@@ -42,16 +52,28 @@ const App = () => {
   const handleFilter = (event) => {
     setFilter(event.target.value);
   }
+  const handleDelButton = (person) => {
+    if(window.confirm(`Delete ${person.name}?`)){
+console.log('person :>> ', person);
+      axios
+           .delete(`http://localhost:3001/persons/${person.id}`)
+           .then(response => {
+             console.log('response :>> ', response)
+             setReloadPerson(true);
+
+           })
+           .catch(err => console.log(err))
+  
+}}
 
   const personToShow = !newFilter
     ? persons
     : persons.filter(person => {
-      return person.name.toLowerCase().includes(newFilter.toLowerCase()) ? true
+        return person.name.toLowerCase().includes(newFilter.toLowerCase()) ? true
         : false
-    });
-  console.log(personToShow);
+  });
 
-  return (
+return (
     <div>
       <h2>Phonebook</h2>
       <Filter handleFilter={handleFilter} newFilter={newFilter} />
@@ -64,7 +86,7 @@ const App = () => {
       <div>debug: {newNumber}</div>
       <div>debug: {newFilter}</div> */}
       {personToShow.map((personShow, i) =>
-        <Phonebook key={i} person={personShow} />
+        <Phonebook key={i} person={personShow} handleDelButton={handleDelButton}/>
       )}
     </div>
   )
