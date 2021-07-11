@@ -2,13 +2,8 @@
   "persons": [
     {
       "name": "Alice Wonder",
-      "number": "7798854242",
+      "number": "123321",
       "id": 1
-    },
-    {
-      "name": "Bob Hope",
-      "number": "7798854242",
-      "id": 2
     },
     {
       "name": "Charlie Checkpoi",
@@ -59,11 +54,6 @@
       "name": "Leslie More",
       "number": "7798854242",
       "id": 12
-    },
-    {
-      "name": "Mou Men Luo",
-      "number": "7798854242",
-      "id": 13
     },
     {
       "name": "Nice Cecily",
