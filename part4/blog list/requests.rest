@@ -3,8 +3,8 @@ PUT http://localhost:8000/api/blogs/60f2092ba7cc227cbcc473c7  HTTP/1.1
 content-type: application/json
 
 {   
-    "title": "Go To Statement Considered Harmful",
-    "author": "Edsger W. Dijkstra",
+    "title": "Infinite Jest",
+    "author": "DF Wallace",
     "url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
     "likes": 5
 }
@@ -27,4 +27,14 @@ content-type: application/json
     "name": "credit card",
     "password": "sds",
     "blogs": []
+}
+###
+POST  http://localhost:8000/api/blogs HTTP/1.1 
+content-type: application/json
+
+{   
+    "title": "A Short History ",
+    "author": "Bill Bryson",
+    "url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+    "likes": 5
 }

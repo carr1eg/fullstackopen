@@ -180,25 +180,6 @@ describe('when there is initially one user in database', () => {
   })
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 afterAll(() => {
   mongoose.connection.close()
 })
