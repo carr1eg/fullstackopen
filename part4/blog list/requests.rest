@@ -1,9 +1,30 @@
 ###
-PUT http://localhost:8000/api/blogs/a422aa71b54a676234d17f8  HTTP/1.1 content-type: application/json
+PUT http://localhost:8000/api/blogs/60f2092ba7cc227cbcc473c7  HTTP/1.1 
+content-type: application/json
 
-{
-   "title": "Go To Statement Considered Harmful",
+{   
+    "title": "Go To Statement Considered Harmful",
     "author": "Edsger W. Dijkstra",
     "url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-    "likes": 0
+    "likes": 5
+}
+###
+POST  http://localhost:8000/api/users HTTP/1.1 
+content-type: application/json
+
+{   
+    "username": "advantage",
+    "name": "credit card",
+    "password": "12321",
+    "blogs": []
+}
+###
+POST  http://localhost:8000/api/users HTTP/1.1 
+content-type: application/json
+
+{   
+    "username": "as",
+    "name": "credit card",
+    "password": "sds",
+    "blogs": []
 }

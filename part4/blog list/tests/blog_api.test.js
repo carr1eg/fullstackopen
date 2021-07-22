@@ -147,7 +147,7 @@ describe('when there is initially one user in database', () => {
 
   })
 
-  test('when the username already exists', async () => {
+  test('create an user with a username that already exists', async () => {
     const userBefore = await helper.usersInDb
     const duplicatedUser = {
       username: 'gen',
@@ -159,7 +159,21 @@ describe('when there is initially one user in database', () => {
       .send(duplicatedUser)
       .expect(400)
 
-    expect(result.body.error).toContain(`username's gotta be unique yo`)
+    const usersAfter = await helper.usersInDb;
+    expect(usersAfter.length).toEqual(userBefore.length)
+  })
+
+  test('when the password is in valid', async () => {
+    const userBefore = await helper.usersinDb
+    const invalidUser = {
+      username: 'gen',
+      name: 'Cranberry',
+      password: '12'
+    }
+    const result = await api.post('/api/users')
+      .send(invalidUser)
+
+    expect(result.body.error).toContain(`password too short`)
   
     const usersAfter = await helper.usersInDb;
     expect(usersAfter.length).toEqual(userBefore.length)
