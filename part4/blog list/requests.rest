@@ -23,26 +23,26 @@ POST  http://localhost:8000/api/users HTTP/1.1
 content-type: application/json
 
 {   
-    "username": "as",
+    "username": "admin",
     "name": "credit card",
-    "password": "sds",
+    "password": "admin",
     "blogs": []
 }
 ###
 POST  http://localhost:8000/api/blogs HTTP/1.1 
 content-type: application/json
-
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOiI2MGZhMGU4YzE0NmRkZjQwMjZhMGQzZTEiLCJpYXQiOjE2MjcwMDA1ODh9.VQmc84fxp7uw0SVyKysHdEYqSNtMNgvy3FgFeMXZ538
 {   
-    "title": "A Short History ",
-    "author": "Bill Bryson",
+    "title": "Token Test admin",
+    "author": "cgm42",
     "url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-    "likes": 5
+    "likes": 666
 }
 ###
 POST http://localhost:8000/api/login 
 Content-Type: application/json
 
 {
-    "username":"advantage",
-    "password":"000"
+    "username":"admin",
+    "password":"admin"
 }

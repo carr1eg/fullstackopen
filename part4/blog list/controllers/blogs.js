@@ -4,7 +4,7 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
 const getTokenFrom = request => {
-  const authorization = reuqest.get('authorization')
+  const authorization = request.get('authorization')
   if(authorization && authorization.toLowerCase().startsWith('bearer ')) {
     return authorization.substring(7)
   }
@@ -18,18 +18,23 @@ blogRouter.get('/', async (request, response) => {
 })
 
 blogRouter.post('/', async (request, response) => {
-  const randomUser = await User.findOne()
-  console.log('randomUser :>> ', randomUser);
+  const token = getTokenFrom(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if(!token || !decodedToken.id) {
+    return response.status(401).json({error: 'token missing or invalid'})
+  }
+  const user = await User.findById(decodedToken.id)
+
   const blog = new Blog({
     title: request.body.title,
     author: request.body.author,
     url: request.body.url,
     likes: request.body.likes || 0,
-    user: randomUser._id,
+    user: user._id,
   })
   const savedBlog = await blog.save();
-  randomUser.blogs = randomUser.blogs.concat(savedBlog._id)
-  await randomUser.save()
+  user.blogs = user.blogs.concat(savedBlog._id)
+  await user.save()
   response.status(201).json(savedBlog)
 })
 
