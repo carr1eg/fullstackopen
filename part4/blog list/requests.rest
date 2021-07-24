@@ -32,6 +32,7 @@ content-type: application/json
 POST  http://localhost:8000/api/blogs HTTP/1.1 
 content-type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOiI2MGZhMGU4YzE0NmRkZjQwMjZhMGQzZTEiLCJpYXQiOjE2MjcwMDA1ODh9.VQmc84fxp7uw0SVyKysHdEYqSNtMNgvy3FgFeMXZ538
+
 {   
     "title": "Token Test admin",
     "author": "cgm42",
