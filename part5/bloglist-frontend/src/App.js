@@ -8,8 +8,11 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
-
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setURL] = useState('')
   const [user, setUser] = useState(null)
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -33,13 +36,60 @@ const App = () => {
       <button type="submit">login</button>
     </form>      
   )
- 
+  const blogForm = () => (
+    <div>
+    <form onSubmit={handleCreate}>
+      <div>
+        title:
+          <input
+          type="text"
+          value={title}
+          name="Title"
+          onChange={({ target }) => setTitle(target.value)}
+        />
+      </div>
+      <div>
+        author:
+          <input
+          type="text"
+          value={author}
+          name="Author"
+          onChange={({ target }) => setAuthor(target.value)}
+        />
+      </div>
+      <div>
+        url:
+          <input
+          type="text"
+          value={url}
+          name="URL"
+          onChange={({ target }) => setURL(target.value)}
+        />
+      </div>
+      <button type="submit">create</button>
+    </form>  
+    </div>    
+  )
+
+  const handleCreate = async (event) => {
+    event.preventDefault()
+    try {
+      const blog = await blogService.create({
+        title, author, url
+      })
+    } catch (exception) {
+      console.log('errrrrr in blog creation')
+      setTimeout(() => {
+        console.log(null)
+      }, 5000)
+    }
+  }
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
-  }, [])
+  }, [blogs])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('LoggedBlogAppUser')
@@ -86,8 +136,10 @@ const App = () => {
       <div>
       <span>{user.name} logged in</span>
       <button onClick={handleLogout}>log out</button>
+      <h1>create new</h1>
       </div>
       }
+       {user !== null && blogForm()}
       {user !== null && blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
