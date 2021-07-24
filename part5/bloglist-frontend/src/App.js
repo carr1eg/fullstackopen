@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-
+import Blogform from './components/Blogform'
+import Togglable from './components/Togglable'
 import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setURL] = useState('')
+ 
   const [user, setUser] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
@@ -36,52 +36,20 @@ const App = () => {
       <button type="submit">login</button>
     </form>      
   )
-  const blogForm = () => (
-    <div>
-    <form onSubmit={handleCreate}>
-      <div>
-        title:
-          <input
-          type="text"
-          value={title}
-          name="Title"
-          onChange={({ target }) => setTitle(target.value)}
-        />
-      </div>
-      <div>
-        author:
-          <input
-          type="text"
-          value={author}
-          name="Author"
-          onChange={({ target }) => setAuthor(target.value)}
-        />
-      </div>
-      <div>
-        url:
-          <input
-          type="text"
-          value={url}
-          name="URL"
-          onChange={({ target }) => setURL(target.value)}
-        />
-      </div>
-      <button type="submit">create</button>
-    </form>  
-    </div>    
-  )
+  
 
-  const handleCreate = async (event) => {
-    event.preventDefault()
+  const handleCreate = async (blogData) => { 
     try {
-      const blog = await blogService.create({
-        title, author, url
-      })
+      const blog = await blogService.create(blogData)
+      setErrorMessage(`a new blog ${blog.title} by ${blog.author} added`)
+        setTimeout(() => {
+        setErrorMessage(null)
+        }, 5000)
     } catch (exception) {
-      console.log('errrrrr in blog creation')
-      setTimeout(() => {
-        console.log(null)
-      }, 5000)
+      setErrorMessage(exception)
+        setTimeout(() => {
+        setErrorMessage(null)
+        }, 5000)
     }
   }
 
@@ -115,10 +83,12 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      console.log('Wrong credentials')
+       setErrorMessage("username or password invalid")
       setTimeout(() => {
-        console.log(null)
+        setErrorMessage(null)
       }, 5000)
+      setUsername('')
+      setPassword('')
     }
   }
  
@@ -127,10 +97,17 @@ const App = () => {
     setUser(null)
   }
 
+  const blogform = () => {
+    return(
+    <Togglable buttonLabel="create blog">
+      <Blogform handleCreate={handleCreate}/> 
+   </Togglable>
+    )
+  }
   return (
     <div>
       <h2>blogs</h2>
-
+      <Notification notification={errorMessage}/> 
       {user === null && loginForm()} 
       {user !== null && 
       <div>
@@ -139,7 +116,7 @@ const App = () => {
       <h1>create new</h1>
       </div>
       }
-       {user !== null && blogForm()}
+       {user !== null && blogform()}
       {user !== null && blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
@@ -147,4 +124,15 @@ const App = () => {
   )
 }
 
+
+const Notification = ({notification}) => {
+  if(notification === null){
+    return null;
+  }
+  return(
+    <div className="notification">
+      {notification}
+    </div>
+  )
+}
 export default App
