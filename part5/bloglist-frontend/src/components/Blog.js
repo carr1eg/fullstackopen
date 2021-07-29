@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import blogService from '../services/blogs';
 
-const Blog = ({ blog }) => {
+const Blog = ( { blog } ) => {
   const [blogview, setBlogview] = useState(false);
 
   const handleView= () => {
@@ -17,7 +17,7 @@ const Blog = ({ blog }) => {
   };
 
   return (
-    <div style ={blogStyle}>
+    <div style ={blogStyle} className='blog'>
       {blog.title} {blog.author}
       {blogview === false && <button onClick ={handleView}>view</button>}
       {blogview !== false && <button onClick ={handleView}>hide</button>}
