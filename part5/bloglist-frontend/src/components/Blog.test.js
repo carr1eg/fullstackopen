@@ -21,8 +21,6 @@ test('renders content', () => {
   expect(component.container).toHaveTextContent(
     'Component testing'
   );
-
-
   expect(component.container).toHaveTextContent(
     'aWritter'
   );

@@ -18,6 +18,7 @@ const App = () => {
       <div>
         username
         <input
+          id='username'
           type="text"
           value={username}
           name="Username"
@@ -27,13 +28,14 @@ const App = () => {
       <div>
         password
         <input
+          id='password'
           type="password"
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button type="submit">login</button>
+      <button id='login-button' type="submit">login</button>
     </form>
   );
 
@@ -41,13 +43,14 @@ const App = () => {
   const handleCreate = async (blogData) => {
     try {
       const blog = await blogService.create(blogData);
+      setBlogs(blogs.concat(blog));
       blogformRef.current.toggleVisibility();
       setErrorMessage(`a new blog ${blog.title} by ${blog.author} added`);
       setTimeout(() => {
         setErrorMessage(null);
       }, 5000);
     } catch (exception) {
-      setErrorMessage(exception);
+      setErrorMessage(exception.errorMessage);
       setTimeout(() => {
         setErrorMessage(null);
       }, 5000);
@@ -105,6 +108,21 @@ const App = () => {
       </Togglable>
     );
   };
+
+  const deleteBlog = async (id) => {
+    try {
+      console.log('id :>> ', id);
+      //const response = await blogService.deleteOne(id);
+      setBlogs(blogs.filter(blog => blog.id !== id));
+      setErrorMessage('A blog has been deleted');
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+    } catch (error) {
+      setErrorMessage(error.errorMessage);
+    }
+  };
+
   return (
     <div>
       <h2>blogs</h2>
@@ -119,7 +137,7 @@ const App = () => {
       }
       {user !== null && blogform()}
       {user !== null && blogs.sort((a,b) => b.likes - a.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} deleteBlog={deleteBlog}/>
       )}
     </div>
   );
