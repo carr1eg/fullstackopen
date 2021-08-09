@@ -47,3 +47,8 @@ Content-Type: application/json
     "username":"admin",
     "password":"admin"
 }
+###
+POST http://localhost:3003/api/testing/reset
+
+####
+DELETE http://localhost:3003/api/blogs/60f9f1fdda8be9389d8ac7ea
